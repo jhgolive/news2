@@ -1,1 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      background: transparent; /* 프리즘에서 배경 투명 가능 */
+      overflow: hidden;
+    }
+    #news {
+      white-space: nowrap;
+      display: inline-block;
+      font-size: 28px;
+      color: white;
+      font-weight: bold;
+      animation: scroll 60s linear infinite;
+    }
+    @keyframes scroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+<body>
+  <div id="news">뉴스 로딩 중...</div>
 
+  <script>
+  async function loadNews() {
+    try {
+      let res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko");
+      let data = await res.json();
+      document.getElementById("news").innerText =
+        data.items.slice(0, 10).map(i => i.title).join("   |   ");
+    } catch (e) {
+      console.error("뉴스 불러오기 실패", e);
+    }
+  }
+  loadNews();
+  setInterval(loadNews, 60000);
+  </script>
+</body>
+</html>
