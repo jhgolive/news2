@@ -14,8 +14,8 @@
       overflow: hidden;
       height: 40px;
     }
-    .marquee-content {
-      display: inline-block;
+    .marquee-track {
+      display: flex;
       white-space: nowrap;
       font-size: 28px;
       font-weight: bold;
@@ -24,13 +24,13 @@
     }
     @keyframes scroll {
       0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); } /* 절반까지만 이동 */
+      100% { transform: translateX(-50%); } /* 전체 길이의 절반만 이동 */
     }
   </style>
 </head>
 <body>
   <div class="marquee">
-    <div class="marquee-content" id="news"></div>
+    <div class="marquee-track" id="news"></div>
   </div>
 
   <script>
@@ -41,14 +41,15 @@
       let text = data.items.map(i => i.title).join("   |   ");
 
       const newsDiv = document.getElementById("news");
-      // 두 번 이상 이어붙여서 빈 공간 제거
-      newsDiv.textContent = text + "   |-|   " + text + "   |--|   " + text;
 
-      // 길이에 따라 속도 자동 계산
-      let width = newsDiv.scrollWidth / 3; // 실제 한 줄 길이
+      // 텍스트를 두 번 이어붙여서 무한 루프 보장
+      let fullText = text + "   |repeat|   " + text;
+      newsDiv.textContent = fullText;
+
+      // 트랙 길이 계산
+      let width = newsDiv.scrollWidth / 2; // 한 세트 길이
       let duration = width / 100; // 100px당 1초
       newsDiv.style.animationDuration = duration + "s";
-
     } catch (e) {
       console.error("뉴스 불러오기 실패", e);
     }
