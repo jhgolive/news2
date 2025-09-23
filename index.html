@@ -5,59 +5,40 @@
   <style>
     body {
       margin: 0;
-      background: transparent;
+      background: transparent; /* 프리즘에서 배경 투명 가능 */
       overflow: hidden;
     }
-    .marquee {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-      height: 40px;
-    }
-    .marquee-track {
-      display: flex;
+    #news {
       white-space: nowrap;
+      display: inline-block;
       font-size: 28px;
-      font-weight: bold;
       color: white;
-      animation: scroll linear infinite;
+      font-weight: bold;
+      animation: scroll 60s linear infinite;
     }
     @keyframes scroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); } /* 전체 길이의 절반만 이동 */
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-50%); }
     }
   </style>
 </head>
 <body>
-  <div class="marquee">
-    <div class="marquee-track" id="news"></div>
-  </div>
+  <div id="news">뉴스 로딩 중...</div>
 
   <script>
   async function loadNews() {
     try {
       let res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko");
       let data = await res.json();
-      let text = data.items.map(i => i.title).join("   |   ");
-
-      const newsDiv = document.getElementById("news");
-
-      // 텍스트를 두 번 이어붙여서 무한 루프 보장
-      let fullText = text + "   |repeat|   " + text;
-      newsDiv.textContent = fullText;
-
-      // 트랙 길이 계산
-      let width = newsDiv.scrollWidth / 2; // 한 세트 길이
-      let duration = width / 1000; // 100px당 1초
-      newsDiv.style.animationDuration = duration + "s";
+      document.getElementById("news").innerText =
+        //data.items.slice(0, 10).map(i => i.title).join("   |   "); //기사 10개 가져오기 rss2json 무료 최대 10개
+        data.items.map(i => i.title).join("   |   ");
     } catch (e) {
       console.error("뉴스 불러오기 실패", e);
     }
   }
-
   loadNews();
   setInterval(loadNews, 60000);
   </script>
 </body>
 </html>
-
