@@ -23,8 +23,8 @@
       animation: scroll linear infinite;
     }
     @keyframes scroll {
-      0%   { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); } /* 절반까지만 이동 */
     }
   </style>
 </head>
@@ -39,16 +39,14 @@
       let res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko");
       let data = await res.json();
       let text = data.items.map(i => i.title).join("   |   ");
-      text = text + "   |   " + text; // 끊김 없게 두 번 이어붙이기
 
       const newsDiv = document.getElementById("news");
+      // 두 번 이상 이어붙여서 빈 공간 제거
+      newsDiv.textContent = text + "   |-|   " + text + "   |--|   " + text;
 
-      // ⚡ 애니메이션을 리셋하지 않고 텍스트만 교체
-      newsDiv.textContent = text;
-
-      // 길이에 맞춰 속도 자동 조정
-      let width = newsDiv.scrollWidth / 2;
-      let duration = width / 100; // 100px 당 1초
+      // 길이에 따라 속도 자동 계산
+      let width = newsDiv.scrollWidth / 3; // 실제 한 줄 길이
+      let duration = width / 100; // 100px당 1초
       newsDiv.style.animationDuration = duration + "s";
 
     } catch (e) {
@@ -61,4 +59,3 @@
   </script>
 </body>
 </html>
-
