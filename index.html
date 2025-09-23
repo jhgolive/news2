@@ -45,7 +45,7 @@
 
       // 길이에 따라 속도 자동 조절 (예: 100px당 1초)
       let width = newsDiv.scrollWidth / 2; // 실제 한 줄 길이
-      let duration = width / 100; // 100px 당 1초 → 원하면 조절 가능
+      let duration = width / 1000; // 100px 당 1초 → 원하면 조절 가능
       newsDiv.style.animationDuration = duration + "s";
     } catch (e) {
       console.error("뉴스 불러오기 실패", e);
@@ -57,3 +57,4 @@
   </script>
 </body>
 </html>
+
