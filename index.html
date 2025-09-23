@@ -48,7 +48,7 @@
 
       // 트랙 길이 계산
       let width = newsDiv.scrollWidth / 2; // 한 세트 길이
-      let duration = width / 100; // 100px당 1초
+      let duration = width / 1000; // 100px당 1초
       newsDiv.style.animationDuration = duration + "s";
     } catch (e) {
       console.error("뉴스 불러오기 실패", e);
@@ -60,3 +60,4 @@
   </script>
 </body>
 </html>
+
