@@ -14,6 +14,8 @@
       font-size: 28px;
       color: white;
       font-weight: bold;
+      will-change: transform; /* GPU 최적화 */
+      backface-visibility: hidden;
       animation: scroll 120s linear infinite; /* 글자 속도 */
     }
     @keyframes scroll {
@@ -26,21 +28,27 @@
   <div id="news">뉴스 로딩 중...</div>
 
   <script>
+  let lastNews = "";
+  
   async function loadNews() {
     try {
       let res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko");
       let data = await res.json();
-      document.getElementById("news").innerText =
-        //data.items.slice(0, 10).map(i => i.title).join("   |   "); //기사 10개 가져오기 rss2json 무료 최대 10개
-        data.items.map(i => i.title).join("   |   ");
+      let newsText = data.items.map(i => i.title).join("   |   ");
+      
+      if (newsText !== lastNews) { // 변경이 있을 때만 갱신
+        document.getElementById("news").innerText = newsText;
+        lastNews = newsText;
+      }
     } catch (e) {
       console.error("뉴스 불러오기 실패", e);
     }
   }
   loadNews();
-  setInterval(loadNews, 300000); // 뉴스 갱신 5분마다
+  setInterval(loadNews, 300000); // 5분마다
   </script>
 </body>
 </html>
+
 
 
