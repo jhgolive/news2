@@ -14,7 +14,7 @@
       font-size: 28px;
       color: white;
       font-weight: bold;
-      animation: scroll 150s linear infinite;
+      animation: scroll 200s linear infinite;
     }
     @keyframes scroll {
       0% { transform: translateX(100%); }
@@ -23,7 +23,7 @@
   </style>
 </head>
 <body>
-  3<div id="news">뉴스 로딩 중...</div>
+  5<div id="news">뉴스 로딩 중...</div>
 
   <script>
   async function loadNews() {
@@ -33,7 +33,7 @@
       let newsDiv = document.getElementById("news");
       let titles = data.items.map(i => i.title).join("   |   ");  //data.items.slice(0, 10).map(i => i.title).join("   |   "); //기사 10개 가져오기 rss2json 무료는 10개가 최대
       
-      newsDiv.innerText = titles + "   |   " + titles; // 글자 반복
+      newsDiv.innerText = titles + "   |Repeat|   " + titles + "   |Repeat|   " + titles + "   |Repeat|   " + titles + "   |Repeat|   " + titles; // 글자 5번 반복
     } catch (e) {
       console.error("뉴스 불러오기 실패", e);
     }
@@ -43,8 +43,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
