@@ -14,7 +14,7 @@
       font-size: 28px;
       color: white;
       font-weight: bold;
-      animation: scroll 120s linear infinite;
+      animation: scroll 120s linear infinite; /* 글자 속도 */
     }
     @keyframes scroll {
       0% { transform: translateX(100vw); }
@@ -23,7 +23,7 @@
   </style>
 </head>
 <body>
-  2<div id="news">뉴스 로딩 중...</div>
+  <div id="news">뉴스 로딩 중...</div>
 
   <script>
   async function loadNews() {
@@ -38,8 +38,9 @@
     }
   }
   loadNews();
-  setInterval(loadNews, 300000);
+  setInterval(loadNews, 300000); // 뉴스 갱신 5분마다
   </script>
 </body>
 </html>
+
 
