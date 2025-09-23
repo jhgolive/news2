@@ -5,57 +5,40 @@
   <style>
     body {
       margin: 0;
-      background: transparent;
+      background: transparent; /* 프리즘에서 배경 투명 가능 */
       overflow: hidden;
-    }
-    #wrapper {
-      white-space: nowrap;
-      overflow: hidden;
-      position: relative;
     }
     #news {
+      white-space: nowrap;
       display: inline-block;
       font-size: 28px;
       color: white;
       font-weight: bold;
-      animation: scroll 120s linear infinite; /* 충분히 긴 시간 */
+      animation: scroll 60s linear infinite;
     }
     @keyframes scroll {
-      0%   { transform: translateX(100vw); }
+      0% { transform: translateX(100vw); }
       100% { transform: translateX(-100%); }
     }
   </style>
 </head>
 <body>
-  <div id="wrapper">
-    <div id="news">뉴스 로딩 중...</div>
-  </div>
+  1<div id="news">뉴스 로딩 중...</div>
 
   <script>
   async function loadNews() {
     try {
       let res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko");
       let data = await res.json();
-      let titles = data.items.map(i => i.title).join("   |   ");
-
-      // 같은 내용을 2번 이어 붙여야 끊김 없이 반복됨
-      document.getElementById("news").innerText = titles + "   |   " + titles;
+      document.getElementById("news").innerText =
+        //data.items.slice(0, 10).map(i => i.title).join("   |   "); //기사 10개 가져오기 rss2json 무료 최대 10개
+        data.items.map(i => i.title).join("   |   ");
     } catch (e) {
       console.error("뉴스 불러오기 실패", e);
     }
   }
   loadNews();
-
-  // 뉴스 갱신은 예를 들어 5분마다
   setInterval(loadNews, 300000);
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
