@@ -14,16 +14,16 @@
       font-size: 28px;
       color: white;
       font-weight: bold;
-      animation: scroll 200s linear infinite;
+      animation: scroll 60s linear infinite;
     }
     @keyframes scroll {
-      0% { transform: translateX(10%); }
-      100% { transform: translateX(-10%); }
+      0% { transform: translateX(1%); }
+      100% { transform: translateX(-1%); }
     }
   </style>
 </head>
 <body>
-  9<div id="news">뉴스 로딩 중...</div>
+  1<div id="news">뉴스 로딩 중...</div>
 
   <script>
   async function loadNews() {
@@ -43,6 +43,7 @@
   </script>
 </body>
 </html>
+
 
 
 
