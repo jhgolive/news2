@@ -15,7 +15,7 @@
       height: 40px;
     }
     .marquee-content {
-      display: flex;
+      display: inline-block;
       white-space: nowrap;
       font-size: 28px;
       font-weight: bold;
@@ -23,13 +23,13 @@
       animation: scroll linear infinite;
     }
     @keyframes scroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-100%); } /* 전체 길이만큼 이동 */
+      0%   { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
   </style>
 </head>
 <body>
-  1<div class="marquee">
+  <div class="marquee">
     <div class="marquee-content" id="news"></div>
   </div>
 
@@ -39,15 +39,18 @@
       let res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko");
       let data = await res.json();
       let text = data.items.map(i => i.title).join("   |   ");
+      text = text + "   |   " + text; // 끊김 없게 두 번 이어붙이기
 
       const newsDiv = document.getElementById("news");
-      // 텍스트를 두 번 이상 이어 붙여서 빈공간 없이 흐르게
-      newsDiv.innerHTML = text + "   |One more time|   " + text;
 
-      // 전체 폭 계산
-      let width = newsDiv.scrollWidth / 2; // 실제 뉴스 한 줄 길이
+      // ⚡ 애니메이션을 리셋하지 않고 텍스트만 교체
+      newsDiv.textContent = text;
+
+      // 길이에 맞춰 속도 자동 조정
+      let width = newsDiv.scrollWidth / 2;
       let duration = width / 1000; // 100px 당 1초
       newsDiv.style.animationDuration = duration + "s";
+
     } catch (e) {
       console.error("뉴스 불러오기 실패", e);
     }
