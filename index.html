@@ -14,7 +14,7 @@
       font-size: 28px;
       color: white;
       font-weight: bold;
-      animation: scroll 60s linear infinite;
+      animation: scroll 150s linear infinite;
     }
     @keyframes scroll {
       0% { transform: translateX(100%); }
@@ -23,7 +23,7 @@
   </style>
 </head>
 <body>
-  2<div id="news">뉴스 로딩 중...</div>
+  <div id="news">뉴스 로딩 중...</div>
 
   <script>
   async function loadNews() {
@@ -31,8 +31,8 @@
       let res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko");
       let data = await res.json();
       document.getElementById("news").innerText =
-        data.items.slice(0, 30).map(i => i.title).join("   |   "); //기사 30개 가져오기
-        //data.items.map(i => i.title).join("   |   ");
+        //data.items.slice(0, 10).map(i => i.title).join("   |   "); //기사 10개 가져오기 rss2json 무료는 10개가 최대
+        data.items.map(i => i.title).join("   |   ");
     } catch (e) {
       console.error("뉴스 불러오기 실패", e);
     }
@@ -42,6 +42,7 @@
   </script>
 </body>
 </html>
+
 
 
 
