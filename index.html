@@ -5,47 +5,55 @@
   <style>
     body {
       margin: 0;
-      background: transparent; /* 프리즘에서 배경 투명 가능 */
+      background: transparent;
       overflow: hidden;
     }
-    #news {
+    .marquee {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      height: 40px;
+    }
+    .marquee-content {
+      display: flex;
       white-space: nowrap;
-      display: inline-block;
       font-size: 28px;
-      color: white;
       font-weight: bold;
-      animation: scroll 60s linear infinite;
+      color: white;
+      animation: scroll linear infinite;
     }
     @keyframes scroll {
-      0% { transform: translateX(1%); }
-      100% { transform: translateX(-1%); }
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); } /* 전체의 절반만큼 이동 */
     }
   </style>
 </head>
 <body>
-  1<div id="news">뉴스 로딩 중...</div>
+  <div class="marquee">
+    <div class="marquee-content" id="news"></div>
+  </div>
 
   <script>
   async function loadNews() {
     try {
       let res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko");
       let data = await res.json();
-      let newsDiv = document.getElementById("news");
-      let titles = data.items.map(i => i.title).join("   |   ");  //data.items.slice(0, 10).map(i => i.title).join("   |   "); //기사 10개 가져오기 rss2json 무료는 10개가 최대
-      
-      newsDiv.innerText = titles + "   |Repeat|   " + titles; // 글자 반복
+      let text = data.items.map(i => i.title).join("   |   ");
+
+      const newsDiv = document.getElementById("news");
+      newsDiv.innerHTML = text + "   |One more time|   " + text; // 2번 이어 붙이기
+
+      // 길이에 따라 속도 자동 조절 (예: 100px당 1초)
+      let width = newsDiv.scrollWidth / 2; // 실제 한 줄 길이
+      let duration = width / 100; // 100px 당 1초 → 원하면 조절 가능
+      newsDiv.style.animationDuration = duration + "s";
     } catch (e) {
       console.error("뉴스 불러오기 실패", e);
     }
   }
+
   loadNews();
   setInterval(loadNews, 60000);
   </script>
 </body>
 </html>
-
-
-
-
-
-
