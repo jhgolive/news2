@@ -31,7 +31,8 @@
       let res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko");
       let data = await res.json();
       document.getElementById("news").innerText =
-        data.items.slice(0, 10).map(i => i.title).join("   |   ");
+        //data.items.slice(0, 10).map(i => i.title).join("   |   "); //기사 10개 가져오기
+        data.items.map(i => i.title).join("   |   ");
     } catch (e) {
       console.error("뉴스 불러오기 실패", e);
     }
@@ -41,3 +42,4 @@
   </script>
 </body>
 </html>
+
