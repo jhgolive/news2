@@ -23,16 +23,17 @@
   </style>
 </head>
 <body>
-  <div id="news">뉴스 로딩 중...</div>
+  3<div id="news">뉴스 로딩 중...</div>
 
   <script>
   async function loadNews() {
     try {
       let res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko");
       let data = await res.json();
-      document.getElementById("news").innerText =
-        //data.items.slice(0, 10).map(i => i.title).join("   |   "); //기사 10개 가져오기 rss2json 무료는 10개가 최대
-        data.items.map(i => i.title).join("   |   ");
+      let newsDiv = document.getElementById("news");
+      let titles = data.items.map(i => i.title).join("   |   ");  //data.items.slice(0, 10).map(i => i.title).join("   |   "); //기사 10개 가져오기 rss2json 무료는 10개가 최대
+      
+      newsDiv.innerText = titles + "   |   " + titles; // 글자 반복
     } catch (e) {
       console.error("뉴스 불러오기 실패", e);
     }
@@ -42,6 +43,7 @@
   </script>
 </body>
 </html>
+
 
 
 
