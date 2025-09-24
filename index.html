@@ -9,14 +9,19 @@
       background: transparent; /* 프리즘에서 배경 투명 가능 */
       overflow: hidden;
     }
+    #wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      transform: translateY(-9px);  /* Y축 이동 */
+      z-index: 9999;
+    }
     #news {
       position: fixed;      /* 화면 고정 */
-      top: 0;            /* 화면 상단에 붙이기 */
+      top: 0;            /* 화면 하단에 붙이기 */
       left: 0;
-      transform: translateY(-9px); /* 강제 위치 조정 */
       white-space: nowrap;
-      display: block;
-      vertical-align: top;
+      display: inline-block;
       font-size: 28px;
       color: white;
       font-weight: bold;
@@ -33,8 +38,10 @@
   </style>
 </head>
 <body>
-  <div id="news">뉴스 로딩 중...</div>
-
+  <div id="wrapper">
+    <div id="news">뉴스 로딩 중...</div>
+  </div>
+  
   <script>
   let lastNews = "";
   
@@ -57,5 +64,4 @@
   </script>
 </body>
 </html>
-
 
