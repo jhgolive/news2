@@ -10,6 +10,9 @@
       overflow: hidden;
     }
     #news {
+      position: fixed;      /* 화면 고정 */
+      bottom: 0;            /* 화면 하단에 붙이기 */
+      left: 0;
       white-space: nowrap;
       display: inline-block;
       font-size: 28px;
@@ -19,6 +22,7 @@
       will-change: transform; /* GPU 최적화 */
       backface-visibility: hidden;
       animation: scroll 120s linear infinite; /* 글자 속도 */
+      z-index: 9999; /* 다른 요소 위에 */
     }
     @keyframes scroll {
       0% { transform: translateX(100vw); }
@@ -51,4 +55,5 @@
   </script>
 </body>
 </html>
+
 
